@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!--====== CUSTOM CSS =======-->
+
+    <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
+
+
+    <!--====== BOOTSTRAP =======-->
+    <script src="../assets/plugins/jquery/jquery-3.2.1.min.js"></script>
+    <!-- <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+     <link rel="stylesheet" href="../assets/js/bootstrap.bundle.min.js">
+ -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!--====== ICONS =======-->
+
+
+
+
+    <!--====== FONTS =======-->
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+
+<body>
+
+
+
+
+
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown">Categories</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="add-category.html">Add Category</a></li>
+                            <li><a class="dropdown-item" href="view-category.html">View Categories</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown">Products</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="add-product.html">Add Product</a></li>
+                            <li><a class="dropdown-item" href="view-products.html">View Products</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Messages</a>
+                    </li>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="container mt-3">
+        <h1 class="text-center mb-4">All Products</h1>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+    <script>
+        var table_body = document.getElementById("table-body")
+
+        fetcCategories('http://localhost:4000/get-products')
+
+        function appendData(data) {
+            let i = 1;
+            data.forEach(function (data) {
+                var tr = document.createElement("tr")
+
+
+                var sr = document.createElement('td');
+                var name = document.createElement('td');
+                var imageTd = document.createElement('td');
+                var quantity = document.createElement('td');
+                var price = document.createElement('td');
+                var category = document.createElement('td');
+                var description = document.createElement('td');
+                var deleteBtn = document.createElement('td');
+
+                
+                var image = document.createElement('img');
+                image.src = '/uploads/'+data.image;
+                image.width = 80;
+                imageTd.appendChild(image);
+
+                name.innerHTML = data.name;
+                quantity.innerHTML = data.quantity
+                price.innerHTML = data.price
+                category.innerHTML = data.category
+                description.innerHTML = data.description
+                deleteBtn.innerHTML = `<a href="/delete-product/${data._id}" class="btn btn-danger">Delele</a>`    ;
+
+                sr.innerHTML = i;
+                i++;
+
+                tr.appendChild(sr)
+                tr.appendChild(name)
+                tr.appendChild(imageTd)
+                tr.appendChild(quantity)
+                tr.appendChild(price)
+                tr.appendChild(category)
+                tr.appendChild(description)
+                tr.appendChild(deleteBtn)
+
+                table_body.appendChild(tr)
+            })
+        }
+
+
+        async function fetcCategories(url) {
+
+            await fetch(url).then(async function (res) {
+                return await res.json()
+            }).then(function (result) {
+                // console.log(result.data);
+                appendData(result.data)
+
+            }).catch(function (err) {
+                console.log(err);
+            })
+        }
+
+
+    </script>
+
+
+
+    <!--====== CUSTOM JS =======-->
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!--====== CUSTOM CSS =======-->
+
+    <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
+
+
+    <!--====== BOOTSTRAP =======-->
+    <script src="../assets/plugins/jquery/jquery-3.2.1.min.js"></script>
+    <!-- <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+     <link rel="stylesheet" href="../assets/js/bootstrap.bundle.min.js">
+ -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!--====== ICONS =======-->
+
+
+
+
+    <!--====== FONTS =======-->
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+
+<body>
+
+
+
+
+
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown">Categories</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="add-category.html">Add Category</a></li>
+                            <li><a class="dropdown-item" href="view-category.html">View Categories</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown">Products</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="add-product.html">Add Product</a></li>
+                            <li><a class="dropdown-item" href="view-products.html">View Products</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Messages</a>
+                    </li>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="container p-5">
+        <h1 class="text-center mb-4">Add Products</h1>
+        <form method="post" action="http://localhost:4000/add-product" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Product Name</label>
+                <input type="text" class="form-control mt-3" name="name" placeholder="Enter Product name" id="example">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Product Price</label>
+                <input type="number" class="form-control mt-3" name="price" placeholder="Enter Product price"
+                    id="example">
+            </div>
+
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Product Quantity</label>
+                <input type="number" class="form-control mt-3" name="quantity" placeholder="Enter Product quantity"
+                    id="example">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Product Category</label>
+                <select class="form-select form-select-lg" name="category" id="categories">
+                    <option value="" selected disabled>Select Category</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Product Image</label>
+                <input type="file" class="form-control mt-3" name="image">
+            </div>
+
+
+            <div class="form-group">
+                <textarea id="" cols="30" rows="10" class="form-control mt-3" name="description"></textarea>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-lg btn-primary mt-3">Save</button>
+        </form>
+
+    </div>
+
+
+
+
+
+    <!--====== CUSTOM JS =======-->
+    <script>
+        var categories = document.getElementById("categories")
+
+        fetcCategories('http://localhost:4000/get-categories')
+
+        function appendData(data) {
+            data.forEach(function (data) {
+                var opt = document.createElement('option');
+                opt.value = data._id;
+                opt.innerHTML = data.category_name;
+                categories.appendChild(opt)
+            })
+        }
+
+
+        async function fetcCategories(url) {
+
+            await fetch(url).then(async function (res) {
+                return await res.json()
+            }).then(function (result) {
+                //    console.log(result.data);
+                appendData(result.data)
+
+            }).catch(function (err) {
+                console.log(err);
+            })
+        }
+    </script>
+    <!-- <script src="script.js"></script> -->
+</body>
+
+</html>
